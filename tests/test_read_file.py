@@ -1,4 +1,4 @@
-def test_read_file.py
+def test_read_file():
     try:
         import pytest
     except ImportError as e:
