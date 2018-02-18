@@ -17,7 +17,7 @@ class HeartRateMonitor:
                  voltage_extremes=None, duration=None, num_beats=None,
                  beats=None):
         """
-        Initializes instance of class HeartRateMonitor 
+        Initializes instance of class HeartRateMonitor
         :param filename: filename/path for ECG data
         :type filename: string
         :param data: numpy array of tuples containing time/voltages
@@ -30,7 +30,7 @@ class HeartRateMonitor:
         :param duration: time duration of ECG strip
         :type duration: float
         :param num_beats: number of detected beats
-        :type num_beats: int 
+        :type num_beats: int
         :param beats: numpy array of times when a beat occurred
         :type beats: numpy array
         """
@@ -48,17 +48,14 @@ class HeartRateMonitor:
         """
         pass
 
-    def _check_data(data)
+    def _check_data(data):
         """
         Ensures that data passed into HeartRateMonitor object is of
         appropriate format
-
         :param data: input passed into HeartRateMonitor for self.data
         :type data: list
-        
+
         :returns: whether data is formatted correctly
         :rtype: boolean
         """
         pass
-
-
