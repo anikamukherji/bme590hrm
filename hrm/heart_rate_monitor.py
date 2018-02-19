@@ -47,6 +47,10 @@ class HeartRateMonitor:
     def read_file(filename):
         """
         """
+        try:
+            import csv
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
         pass
 
     def _check_data(data):
