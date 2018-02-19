@@ -34,7 +34,7 @@ class HeartRateMonitor:
         :param beats: numpy array of times when a beat occurred
         :type beats: numpy array
         """
-        if not self.data:
+        if not data:
             data = self.read_file(filename)
         self.data = data
         self._check_data()
@@ -44,7 +44,7 @@ class HeartRateMonitor:
         self.num_beats = num_beats
         self.beats = beats
 
-    def read_file(filename):
+    def read_file(self, filename):
         """
         """
         try:
@@ -53,7 +53,7 @@ class HeartRateMonitor:
             print("Necessary import failed: {}".format(e))
         pass
 
-    def _check_data(data):
+    def _check_data(self):
         """
         Ensures that data passed into HeartRateMonitor object is of
         appropriate format
