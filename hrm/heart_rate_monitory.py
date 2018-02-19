@@ -34,7 +34,8 @@ class HeartRateMonitor:
         :param beats: numpy array of times when a beat occurred
         :type beats: numpy array
         """
-        data = self.read_file(filename)
+        if not self.data:
+            data = self.read_file(filename)
         self.data = data
         self._check_data()
         self.mean_hr_bpm = mean_hr_bpm
