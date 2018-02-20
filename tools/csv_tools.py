@@ -15,7 +15,11 @@ def prepare_csv_line(row):
     except ImportError as e:
         print("Necessary import failed: {}".format(e))
         return None
-    stripped_row = [x.strip() for x in row]
+    try:
+        stripped_row = [x.strip() for x in row]
+    except AttributeError as e:
+        print("Value could not be stripped: {}".format(e))
+        return None
     try:
         float_row = [float(x) for x in stripped_row]
     except TypeError as e:

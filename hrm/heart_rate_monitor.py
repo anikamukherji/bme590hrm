@@ -87,8 +87,8 @@ class HeartRateMonitor:
                 logging.debug("Found blank row in file")
                 continue
             if len(row) != self.num_entries:
-                logging.warning("Expected {} items per row in file "
-                      "but found {}".format(self.num_entries, len(row)))
+                logging.warning("Expected {} items per row in file but "
+                                "found {}".format(self.num_entries, len(row)))
                 raise FileFormatError()
             new_row = prepare_csv_line(row)
             if new_row.any():

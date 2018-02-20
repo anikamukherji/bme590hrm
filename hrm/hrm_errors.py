@@ -10,15 +10,17 @@ class HRMCustomError(BaseException):
         """
         self.message = message
 
+
 class EmptyFileError(HRMCustomError):
     """
     Exception to be thrown if given file is empty
     """
     pass
 
+
 class FileFormatError(HRMCustomError):
     """
-    Exception to be thrown if given file with 
+    Exception to be thrown if given file with
     wrong format
     """
     pass
