@@ -30,4 +30,7 @@ def test_simple_graph():
         return
     test1 = [np.array([-1, 0, 1, 2, 3, 4]), np.array([-1, 0, 1, 2, 3, 4])]
     result1 = simple_graph(test1[0], test1[1], show=False)
+    result2 = simple_graph(test1[0], test1[1], x_label="x-axis",
+                           y_label="y-axis", show=False)
     assert result1 is True
+    assert result2 is True
