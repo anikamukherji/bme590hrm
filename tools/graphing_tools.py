@@ -1,4 +1,4 @@
-def simple_graph(x, y, x_label=None, y_label=None):
+def simple_graph(x, y, x_label=None, y_label=None, show=True):
     """
     Graphs given x and y values
     :param x: Values to go on x-axis
@@ -10,16 +10,21 @@ def simple_graph(x, y, x_label=None, y_label=None):
     :param y_label: Title for y-axis
     :type y_label: string
     :raises ImportError: if necessary import fails
+    :param show: if graph should pop-up
+    :type show: boolean
 
     :return: True if no exception is raised
     :rtype: boolean
     """
     try:
-        import matplotlib.pyplot as plt
+        import matplotlib
+        matplotlib.use('Agg')
         import numpy as np
+        import matplotlib.pyplot as plt
     except ImportError as e:
         print("Necessary import failed: {}".format(e))
         return
     plt.plot(x, y, 'bo')
-    plt.show()
+    if show:
+        plt.show()
     return True

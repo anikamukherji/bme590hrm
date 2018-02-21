@@ -16,6 +16,7 @@ def test_prepare_csv_line():
     for tst, ans in zip(tests, answers):
         assert np.array_equal(prepare_csv_line(tst), ans)
 
+
 def test_simple_graph():
     try:
         import pytest
@@ -28,5 +29,5 @@ def test_simple_graph():
         print("Necessary import failed: {}".format(e))
         return
     test1 = [np.array([-1, 0, 1, 2, 3, 4]), np.array([-1, 0, 1, 2, 3, 4])]
-    result1 = simple_graph(test1[0], test1[1])
+    result1 = simple_graph(test1[0], test1[1], show=False)
     assert result1 is True
