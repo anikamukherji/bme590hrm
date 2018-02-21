@@ -3,3 +3,4 @@ pytest-pep8
 pytest-cov
 sphinx
 numpy
+matplotlib
