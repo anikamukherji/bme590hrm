@@ -135,6 +135,7 @@ class HeartRateMonitor:
         """
         try:
             from tools.hrm_tools import return_column
+            import numpy as np
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
@@ -153,6 +154,7 @@ class HeartRateMonitor:
         """
         try:
             from tools.hrm_tools import return_column
+            import numpy as np
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
