@@ -18,9 +18,6 @@ def simple_graph(x, y, x_label=None, y_label=None, show=True):
     """
     try:
         import matplotlib
-        # if graph is not showing
-        # comment out the line below
-        matplotlib.use('Agg')
         import numpy as np
         import matplotlib.pyplot as plt
     except ImportError as e:

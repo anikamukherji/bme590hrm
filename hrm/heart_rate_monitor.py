@@ -43,7 +43,6 @@ class HeartRateMonitor:
         if not data:
             data = self.read_file(filename)
         self.data = data
-        self._check_data()
         self.mean_hr_bpm = mean_hr_bpm
         self.voltage_extremes = voltage_extremes
         self.duration = duration
@@ -91,11 +90,14 @@ class HeartRateMonitor:
                                 "found {}".format(self.num_entries, len(row)))
                 raise FileFormatError()
             new_row = prepare_csv_line(row)
-            if new_row.any():
-                data = np.append(data, [new_row], axis=0)
-            else:
-                logging.warning("File contains non-numerical data")
-                raise FileFormatError()
+            try:
+                if new_row.any():
+                    data = np.append(data, [new_row], axis=0)
+                else:
+                    logging.warning("File contains non-numerical data")
+                    raise FileFormatError()
+            except AttributeError:
+                break
         f.close()
         if len(data) == 1:
             logging.warning("File provided is empty")
@@ -104,14 +106,59 @@ class HeartRateMonitor:
                      " {} values".format(len(data)))
         return data
 
-    def _check_data(self):
+    def graph_data(self, show=True):
         """
-        Ensures that data passed into HeartRateMonitor object is of
-        appropriate format
-        :param data: input passed into HeartRateMonitor for self.data
-        :type data: list
+        Graphs ECG data
+        :param show: whether the plot should appear
+        :type show: boolean
 
-        :return: whether data is formatted correctly
+        :return: True if no exceptions are cast
         :rtype: boolean
         """
-        pass
+        try:
+            import numpy as np
+            import matplotlib.pyplot as plt
+            from tools.graphing_tools import simple_graph
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        x = self.return_times()
+        y = self.return_voltages()
+        simple_graph(x, y, x_label="Time", y_label="Voltage", show=show)
+        return True
+
+    def return_voltages(self, index=1):
+        """
+        Returns numpy array of recorded voltages
+        :param index: index of voltage in self.data
+        :type index: int
+
+        :return: 1d numpy array of voltages
+        :rtype: numpy array
+        """
+        try:
+            from tools.hrm_tools import return_column
+            import numpy as np
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        data_mat = np.matrix(self.data)
+        return return_column(data_mat, index)
+
+    def return_times(self, index=0):
+        """
+        Returns numpy array of times voltages were recorded
+        :param index: index of time in self.data
+        :type index: int
+
+        :return: 1d numpy array of times
+        :rtype: numpy array
+        """
+        try:
+            from tools.hrm_tools import return_column
+            import numpy as np
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        data_mat = np.matrix(self.data)
+        return return_column(data_mat, index)
