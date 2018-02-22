@@ -90,7 +90,7 @@ class HeartRateMonitor:
                                 "found {}".format(self.num_entries, len(row)))
                 raise FileFormatError()
             new_row = prepare_csv_line(row)
-            try: 
+            try:
                 if new_row.any():
                     data = np.append(data, [new_row], axis=0)
                 else:
@@ -106,7 +106,6 @@ class HeartRateMonitor:
                      " {} values".format(len(data)))
         return data
 
-
     def graph_data(self, show=True):
         """
         Graphs ECG data
@@ -114,7 +113,7 @@ class HeartRateMonitor:
         :type show: boolean
 
         :return: True if no exceptions are cast
-        :rtype: boolean 
+        :rtype: boolean
         """
         try:
             import numpy as np
@@ -128,7 +127,6 @@ class HeartRateMonitor:
         simple_graph(x, y, x_label="Time", y_label="Voltage", show=show)
         return True
 
-    
     def return_voltages(self, index=1):
         """
         Returns numpy array of recorded voltages
@@ -146,7 +144,6 @@ class HeartRateMonitor:
             return
         data_mat = np.matrix(self.data)
         return return_column(data_mat, index)
-
 
     def return_times(self, index=0):
         """

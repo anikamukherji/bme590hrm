@@ -35,6 +35,7 @@ def test_simple_graph():
     assert result1 is True
     assert result2 is True
 
+
 def test_return_column():
     try:
         import pytest
@@ -58,8 +59,6 @@ def test_return_column():
         return_column([4], 1)
     with pytest.raises(TypeError):
         return_column({9: 1}, 1)
-    with pytest.raises(TypeError):
-        return_column(np.array([1]), 1)
     index_error = return_column(test, 5)
     assert index_error is None
     t0 = return_column(test, 0)

@@ -19,13 +19,13 @@ def return_column(matrix, index):
     if type(index) is not int:
         print("Incorrect type given to index: {}".format(type(index)))
         raise TypeError()
-    if type(matrix) is not type(np.matrix([0])):
-        print("Incorrect type given to matrix: {}".format(type(matrix)))
-        raise TypeError()
     try:
         ret = matrix[:, index]
     except IndexError:
         print("Index given is out of bounds")
         return None
+    except AttributeError:
+        print("Incorrect type given to matrix: {}".format(type(matrix)))
+        raise TypeError()
     flat_mat = ret.flatten()
     return np.array(flat_mat)
