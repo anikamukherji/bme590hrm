@@ -43,7 +43,6 @@ class HeartRateMonitor:
         if not data:
             data = self.read_file(filename)
         self.data = data
-        self._check_data()
         self.mean_hr_bpm = mean_hr_bpm
         self.voltage_extremes = voltage_extremes
         self.duration = duration
@@ -91,11 +90,14 @@ class HeartRateMonitor:
                                 "found {}".format(self.num_entries, len(row)))
                 raise FileFormatError()
             new_row = prepare_csv_line(row)
-            if new_row.any():
-                data = np.append(data, [new_row], axis=0)
-            else:
-                logging.warning("File contains non-numerical data")
-                raise FileFormatError()
+            try: 
+                if new_row.any():
+                    data = np.append(data, [new_row], axis=0)
+                else:
+                    logging.warning("File contains non-numerical data")
+                    raise FileFormatError()
+            except AttributeError:
+                break
         f.close()
         if len(data) == 1:
             logging.warning("File provided is empty")
@@ -104,14 +106,24 @@ class HeartRateMonitor:
                      " {} values".format(len(data)))
         return data
 
-    def _check_data(self):
-        """
-        Ensures that data passed into HeartRateMonitor object is of
-        appropriate format
-        :param data: input passed into HeartRateMonitor for self.data
-        :type data: list
 
-        :return: whether data is formatted correctly
-        :rtype: boolean
+    def graph_data(self):
+        """
+        Graphs ECG data
+        """
+        print(self.data)
+        return True
+
+    
+    def return_voltages(self):
+        """
+        Returns numpy array of recorded voltages
+        """
+        pass
+
+
+    def return_times(self):
+        """
+        Returns numpy array of times voltages were recorded
         """
         pass

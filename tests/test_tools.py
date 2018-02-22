@@ -34,3 +34,8 @@ def test_simple_graph():
                            y_label="y-axis", show=False)
     assert result1 is True
     assert result2 is True
+
+if __name__ == "__main__":
+    from hrm.heart_rate_monitor import HeartRateMonitor
+    x = HeartRateMonitor("test_data/test_data1.csv")
+    print(x.data)
