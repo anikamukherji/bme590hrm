@@ -118,9 +118,14 @@ class HeartRateMonitor:
         """
         try:
             import numpy as np
+            import matplotlib.pyplot as plt
+            from tools.graphing_tools import simple_graph
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
+        x = self.return_times()
+        y = self.return_voltages()
+        simple_graph(x, y, x_label="Time", y_label="Voltage", show=show)
         return True
 
     

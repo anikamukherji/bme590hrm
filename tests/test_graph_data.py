@@ -6,9 +6,9 @@ def test_graph_data():
     except ImportError as e:
         print("Necessary import failed: {}".format(e))
         return
-    for num in range(1, 10):
+    for num in range(1, 4):
         test = HeartRateMonitor("test_data/test_data{}.csv".format(num))
-        res = test.graph_data()
+        res = test.graph_data(show=False)
         assert res is True
 
 
@@ -24,7 +24,6 @@ def test_return_voltages():
     res = test.return_voltages()
     assert np.array_equal(res, np.array([[0.0, 1.0, 2.0, 4.0]]))
     pass
-
 
 
 def test_return_times():

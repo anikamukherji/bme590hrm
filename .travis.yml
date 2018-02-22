@@ -4,4 +4,5 @@ python:
 install:
       - pip install -r requirements.txt
 script:
+      - echo "backend: Agg" >> ~/.matplotlib/matplotlibrc
       - pytest -v --pep8
