@@ -35,7 +35,34 @@ def test_simple_graph():
     assert result1 is True
     assert result2 is True
 
-if __name__ == "__main__":
-    from hrm.heart_rate_monitor import HeartRateMonitor
-    x = HeartRateMonitor("test_data/test_data1.csv")
-    print(x.data)
+def test_return_column():
+    try:
+        import pytest
+        import numpy as np
+        from tools.hrm_tools import return_column
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    test = np.matrix([[1, 2], [3, 4], [5, 6]])
+    with pytest.raises(TypeError):
+        return_column(test, 'a')
+    with pytest.raises(TypeError):
+        return_column(test, 3.0)
+    with pytest.raises(TypeError):
+        return_column(test, [9])
+    with pytest.raises(TypeError):
+        return_column(test, {9: 1})
+    with pytest.raises(TypeError):
+        return_column(4, 1)
+    with pytest.raises(TypeError):
+        return_column([4], 1)
+    with pytest.raises(TypeError):
+        return_column({9: 1}, 1)
+    with pytest.raises(TypeError):
+        return_column(np.array([1]), 1)
+    index_error = return_column(test, 5)
+    assert index_error is None
+    t0 = return_column(test, 0)
+    assert np.array_equal(t0, np.array([[1, 3, 5]]))
+    t1 = return_column(test, 1)
+    assert np.array_equal(t1, np.array([[2, 4, 6]]))

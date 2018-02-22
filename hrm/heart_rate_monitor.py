@@ -107,23 +107,54 @@ class HeartRateMonitor:
         return data
 
 
-    def graph_data(self):
+    def graph_data(self, show=True):
         """
         Graphs ECG data
+        :param show: whether the plot should appear
+        :type show: boolean
+
+        :return: True if no exceptions are cast
+        :rtype: boolean 
         """
-        print(self.data)
+        try:
+            import numpy as np
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
         return True
 
     
-    def return_voltages(self):
+    def return_voltages(self, index=1):
         """
         Returns numpy array of recorded voltages
+        :param index: index of voltage in self.data
+        :type index: int
+
+        :return: 1d numpy array of voltages
+        :rtype: numpy array
         """
-        pass
+        try:
+            from tools.hrm_tools import return_column
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        data_mat = np.matrix(self.data)
+        return return_column(data_mat, index)
 
 
-    def return_times(self):
+    def return_times(self, index=0):
         """
         Returns numpy array of times voltages were recorded
+        :param index: index of time in self.data
+        :type index: int
+
+        :return: 1d numpy array of times
+        :rtype: numpy array
         """
-        pass
+        try:
+            from tools.hrm_tools import return_column
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        data_mat = np.matrix(self.data)
+        return return_column(data_mat, index)
