@@ -184,7 +184,7 @@ class HeartRateMonitor:
         times = self.return_times()
         v = voltages[0]
         t = times[0]
-        last_sample = t[-1] 
+        last_sample = t[-1]
         ret = fftconvolve(v, v[::-1], mode='full')
         # get rid of negative lags
         last_half = ret[ret.size//2:]

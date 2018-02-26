@@ -9,4 +9,3 @@ def test_heart_rate():
     test = HeartRateMonitor("test_data/test_data1.csv")
     test.find_heart_rate()
     pass
-
