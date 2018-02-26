@@ -133,7 +133,7 @@ class HeartRateMonitor:
         :param index: index of voltage in self.data
         :type index: int
 
-        :return: 1d numpy array of voltages
+        :return: 2d numpy array of voltages
         :rtype: numpy array
         """
         try:
@@ -151,7 +151,7 @@ class HeartRateMonitor:
         :param index: index of time in self.data
         :type index: int
 
-        :return: 1d numpy array of times
+        :return: 2d numpy array of times
         :rtype: numpy array
         """
         try:
@@ -162,3 +162,38 @@ class HeartRateMonitor:
             return
         data_mat = np.matrix(self.data)
         return return_column(data_mat, index)
+
+    def find_heart_rate(self):
+        """
+        Finds heart rate given numpy array of ECG voltages
+        Inspiration: https://gist.github.com/endolith/255291/
+        71cafad1820118a190a3752388350f1c97acd6de
+
+        :return: heart rate
+        :rtype: int
+        """
+        try:
+            import numpy as np
+            import matplotlib.pyplot as plt
+            from matplotlib.mlab import find
+            from scipy.signal import fftconvolve
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        voltages = self.return_voltages()
+        times = self.return_times()
+        v = voltages[0]
+        t = times[0]
+        last_sample = t[-1] 
+        ret = fftconvolve(v, v[::-1], mode='full')
+        # get rid of negative lags
+        last_half = ret[ret.size//2:]
+        corr = last_half[last_half.size//2:]
+        d = np.diff(last_half)
+        start = find(d > 0)[0]
+        peak = np.argmax(corr[start:]) + start
+        # sampling frequency
+        fs = t.size/last_sample
+        freq = fs/peak
+        print(freq)
+        return freq
