@@ -17,7 +17,7 @@ class HeartRateMonitor:
 
     def __init__(self, filename, num_entries=2, data=None, mean_hr_bpm=None,
                  voltage_extremes=None, duration=None, num_beats=None,
-                 beats=None):
+                 beats=None, units='second'):
         """
         Initializes instance of class HeartRateMonitor
         :param filename: filename/path for ECG data
@@ -27,7 +27,7 @@ class HeartRateMonitor:
         :param data: 2d numpy array containing time/voltages
         :type data: numpy array
         :param mean_hr_bpm: estimated average heart rate over a
-                            user-specified number of minutes (default = 10 min)
+                            user-specified number of minutes (default = 1 min)
         :type mean_hr_bpm: int
         :param voltage_extremes: tuple containing min & max lead voltages
         :type voltage_extremes: tuple
@@ -37,6 +37,8 @@ class HeartRateMonitor:
         :type num_beats: int
         :param beats: numpy array of times when a beat occurred
         :type beats: numpy array
+        :param units: units of time from the csv file (default = seconds)
+        :type units: string
         """
         self.filename = filename
         self.num_entries = num_entries
@@ -45,9 +47,13 @@ class HeartRateMonitor:
         self.data = data
         self.mean_hr_bpm = mean_hr_bpm
         self.voltage_extremes = voltage_extremes
-        self.duration = duration
+        if not duration:
+            self.find_duration()
+        else:
+            self.duration = duration
         self.num_beats = num_beats
         self.beats = beats
+        self.units = units
 
     def read_file(self, filename):
         """
@@ -163,6 +169,18 @@ class HeartRateMonitor:
         data_mat = np.matrix(self.data)
         return return_column(data_mat, index)
 
+    def find_duration(self):
+        """
+        Sets duration of HeartRateMonitor object
+        """
+        times = self.return_times()
+        t = times[0]
+        if t.size == 0:
+            self.duration = 0
+            return
+        last_sample = t[-1]
+        self.duration = last_sample
+
     def find_heart_rate(self):
         """
         Finds heart rate of HeartRateMonitor object data
@@ -178,11 +196,10 @@ class HeartRateMonitor:
             print("Necessary import failed: {}".format(e))
             return
         voltages = self.return_voltages()
-        times = self.return_times()
         v = voltages[0]
+        times = self.return_times()
         t = times[0]
-        last_sample = t[-1]
-        # sampling frequency
-        fs = round(t.size/last_sample)
+        t_diff = np.diff(t)
+        fs = np.mean(t_diff)
         freq = autocorr_freq(v, fs)
         return freq
