@@ -217,7 +217,7 @@ class HeartRateMonitor:
         try:
             import numpy as np
             import matplotlib.pyplot as plt
-            from tools.hrm_tools import find_max, find_min 
+            from tools.hrm_tools import find_max, find_min
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return

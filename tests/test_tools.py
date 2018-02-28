@@ -91,7 +91,7 @@ def test_find_max():
     except ImportError as e:
         print("Necessary import failed: {}".format(e))
         return
-    type_errs = [np.array([[1,2], [1,2]]), np.array(['a']), [3, 4],
+    type_errs = [np.array([[1, 2], [1, 2]]), np.array(['a']), [3, 4],
                  'a', {1: 3}, np.array([])]
     for ex in type_errs:
         with pytest.raises(TypeError):
@@ -106,11 +106,11 @@ def test_find_min():
     try:
         import pytest
         import numpy as np
-        from tools.hrm_tools import find_min 
+        from tools.hrm_tools import find_min
     except ImportError as e:
         print("Necessary import failed: {}".format(e))
         return
-    type_errs = [np.array([[1,2], [1,2]]), np.array(['a']), [3, 4],
+    type_errs = [np.array([[1, 2], [1, 2]]), np.array(['a']), [3, 4],
                  'a', {1: 3}, np.array([])]
     for ex in type_errs:
         with pytest.raises(TypeError):
