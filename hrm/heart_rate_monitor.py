@@ -183,7 +183,6 @@ class HeartRateMonitor:
         t = times[0]
         last_sample = t[-1]
         # sampling frequency
-        fs = t.size/last_sample
+        fs = round(t.size/last_sample)
         freq = autocorr_freq(v, fs)
-        print(freq)
         return freq

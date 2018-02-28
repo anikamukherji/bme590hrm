@@ -7,5 +7,5 @@ def test_heart_rate():
         print("Necessary import failed: {}".format(e))
         return
     test = HeartRateMonitor("test_data/test_data1.csv")
-    test.find_heart_rate()
+    freq = test.find_heart_rate()
     pass

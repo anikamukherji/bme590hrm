@@ -40,6 +40,8 @@ def autocorr_freq(signal, fs):
 
     :param signal: signal to be analyzed
     :type signal: 1-d numpy array
+    :param fs: sampling frequency
+    :type fs: int
 
     :return: frequency
     :rtype: int
@@ -53,11 +55,9 @@ def autocorr_freq(signal, fs):
         return
     ret = fftconvolve(signal, signal[::-1], mode='full')
     # get rid of negative lags
-    last_half = ret[ret.size//2:]
-    corr = last_half[last_half.size//2:]
-    d = np.diff(last_half)
+    corr = ret[ret.size//2:]
+    d = np.diff(corr)
     start = find(d > 0)[0]
     peak = np.argmax(corr[start:]) + start
-    # sampling frequency
     freq = fs/peak
-    return freq
+    return int(freq)
