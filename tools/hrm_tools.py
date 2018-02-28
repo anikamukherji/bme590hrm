@@ -41,10 +41,10 @@ def autocorr_freq(signal, fs):
     :param signal: signal to be analyzed
     :type signal: 1-d numpy array
     :param fs: sampling frequency
-    :type fs: int
+    :type fs: float
 
     :return: frequency
-    :rtype: int
+    :rtype: float
     """
     try:
         import numpy as np
@@ -59,8 +59,8 @@ def autocorr_freq(signal, fs):
     d = np.diff(corr)
     start = find(d > 0)[0]
     peak = np.argmax(corr[start:]) + start
-    freq = fs/peak
-    return int(freq)
+    steps_per_peak = fs/peak
+    return steps_per_peak
 
 
 def find_max(array):

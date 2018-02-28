@@ -79,8 +79,8 @@ def test_autocorr_freq():
     freq1 = autocorr_freq(test1, len(test1))
     test2 = np.array([0, 0.1, 0.2, 1, 0.05, 0.1, 1, 0, 0.12, 1, 0])
     freq2 = autocorr_freq(test2, len(test2))
-    assert freq1 == 3
-    assert freq2 == 3
+    assert int(freq1) == 3
+    assert int(freq2) == 3
 
 
 def test_find_max():
