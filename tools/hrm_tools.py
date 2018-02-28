@@ -29,3 +29,35 @@ def return_column(matrix, index):
         raise TypeError()
     flat_mat = ret.flatten()
     return np.array(flat_mat)
+
+
+def autocorr_freq(signal, fs):
+    """
+    Estimates frequency of periodic signal
+    using autocorrelation
+    Inspiration: https://gist.github.com/endolith/255291/
+    71cafad1820118a190a3752388350f1c97acd6de
+
+    :param signal: signal to be analyzed
+    :type signal: 1-d numpy array
+    :param fs: sampling frequency
+    :type fs: int
+
+    :return: frequency
+    :rtype: int
+    """
+    try:
+        import numpy as np
+        from matplotlib.mlab import find
+        from scipy.signal import fftconvolve
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    ret = fftconvolve(signal, signal[::-1], mode='full')
+    # get rid of negative lags
+    corr = ret[ret.size//2:]
+    d = np.diff(corr)
+    start = find(d > 0)[0]
+    peak = np.argmax(corr[start:]) + start
+    freq = fs/peak
+    return int(freq)

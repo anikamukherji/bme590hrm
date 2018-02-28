@@ -133,7 +133,7 @@ class HeartRateMonitor:
         :param index: index of voltage in self.data
         :type index: int
 
-        :return: 1d numpy array of voltages
+        :return: 2d numpy array of voltages
         :rtype: numpy array
         """
         try:
@@ -151,7 +151,7 @@ class HeartRateMonitor:
         :param index: index of time in self.data
         :type index: int
 
-        :return: 1d numpy array of times
+        :return: 2d numpy array of times
         :rtype: numpy array
         """
         try:
@@ -162,3 +162,27 @@ class HeartRateMonitor:
             return
         data_mat = np.matrix(self.data)
         return return_column(data_mat, index)
+
+    def find_heart_rate(self):
+        """
+        Finds heart rate of HeartRateMonitor object data
+
+        :return: heart rate
+        :rtype: int
+        """
+        try:
+            import numpy as np
+            import matplotlib.pyplot as plt
+            from tools.hrm_tools import autocorr_freq
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        voltages = self.return_voltages()
+        times = self.return_times()
+        v = voltages[0]
+        t = times[0]
+        last_sample = t[-1]
+        # sampling frequency
+        fs = round(t.size/last_sample)
+        freq = autocorr_freq(v, fs)
+        return freq

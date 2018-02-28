@@ -65,3 +65,19 @@ def test_return_column():
     assert np.array_equal(t0, np.array([[1, 3, 5]]))
     t1 = return_column(test, 1)
     assert np.array_equal(t1, np.array([[2, 4, 6]]))
+
+
+def test_autocorr_freq():
+    try:
+        import pytest
+        import numpy as np
+        from tools.hrm_tools import autocorr_freq
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    test1 = np.array([0, 0, 1, 0, 0, 1, 0, 0, 1, 0])
+    freq1 = autocorr_freq(test1, len(test1))
+    test2 = np.array([0, 0.1, 0.2, 1, 0.05, 0.1, 1, 0, 0.12, 1, 0])
+    freq2 = autocorr_freq(test2, len(test2))
+    assert freq1 == 3
+    assert freq2 == 3
