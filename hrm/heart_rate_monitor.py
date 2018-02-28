@@ -165,9 +165,7 @@ class HeartRateMonitor:
 
     def find_heart_rate(self):
         """
-        Finds heart rate given numpy array of ECG voltages
-        Inspiration: https://gist.github.com/endolith/255291/
-        71cafad1820118a190a3752388350f1c97acd6de
+        Finds heart rate of HeartRateMonitor object data
 
         :return: heart rate
         :rtype: int
@@ -175,8 +173,7 @@ class HeartRateMonitor:
         try:
             import numpy as np
             import matplotlib.pyplot as plt
-            from matplotlib.mlab import find
-            from scipy.signal import fftconvolve
+            from tools.hrm_tools import autocorr_freq
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
@@ -185,15 +182,8 @@ class HeartRateMonitor:
         v = voltages[0]
         t = times[0]
         last_sample = t[-1]
-        ret = fftconvolve(v, v[::-1], mode='full')
-        # get rid of negative lags
-        last_half = ret[ret.size//2:]
-        corr = last_half[last_half.size//2:]
-        d = np.diff(last_half)
-        start = find(d > 0)[0]
-        peak = np.argmax(corr[start:]) + start
         # sampling frequency
         fs = t.size/last_sample
-        freq = fs/peak
+        freq = autocorr_freq(v, fs)
         print(freq)
         return freq
