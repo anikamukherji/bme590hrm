@@ -16,5 +16,5 @@ def test_read_file():
     with pytest.raises(FileFormatError):
         test3 = HeartRateMonitor("requirements.txt", num_entries=3)
     test4 = HeartRateMonitor("tests/basic_test2.csv")
-    ans4 = np.array([[0, 0], [0, 1], [1, 2], [3, 4]])
+    ans4 = np.array([[0, 1], [1, 2], [3, 4]])
     assert np.array_equal(test4.data, ans4)

@@ -22,7 +22,7 @@ def test_return_voltages():
         return
     test = HeartRateMonitor("tests/basic_test2.csv")
     res = test.return_voltages()
-    assert np.array_equal(res, np.array([[0.0, 1.0, 2.0, 4.0]]))
+    assert np.array_equal(res, np.array([1.0, 2.0, 4.0]))
     pass
 
 
@@ -36,4 +36,4 @@ def test_return_times():
         return
     test = HeartRateMonitor("tests/basic_test2.csv")
     res = test.return_times()
-    assert np.array_equal(res, np.array([[0.0, 0.0, 1.0, 3.0]]))
+    assert np.array_equal(res, np.array([0.0, 1.0, 3.0]))
