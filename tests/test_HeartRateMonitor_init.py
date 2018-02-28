@@ -46,3 +46,16 @@ def test_find_duration():
         return
     test = HeartRateMonitor("tests/basic_test2.csv")
     assert test.duration == 3
+
+
+def test_find_extreme_voltages():
+    try:
+        import pytest
+        import numpy as np
+        from hrm.heart_rate_monitor import HeartRateMonitor
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    test = HeartRateMonitor("tests/basic_test2.csv")
+    test.find_extreme_voltages()
+    assert test.voltage_extremes == (1.0, 4.0)

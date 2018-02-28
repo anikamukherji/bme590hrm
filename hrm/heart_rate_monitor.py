@@ -106,7 +106,9 @@ class HeartRateMonitor:
             except AttributeError:
                 break
         f.close()
-        if len(data) == 1:
+        # remove zero placeholder
+        data = np.delete(data, (0), axis=0)
+        if len(data) == 0:
             logging.warning("File provided is empty")
             raise EmptyFileError()
         logging.info("Returning 2d numpy array with "
@@ -140,7 +142,7 @@ class HeartRateMonitor:
         :param index: index of voltage in self.data
         :type index: int
 
-        :return: 2d numpy array of voltages
+        :return: 1d numpy array of voltages
         :rtype: numpy array
         """
         try:
@@ -150,7 +152,8 @@ class HeartRateMonitor:
             print("Necessary import failed: {}".format(e))
             return
         data_mat = np.matrix(self.data)
-        return return_column(data_mat, index)
+        arr = return_column(data_mat, index)
+        return arr[0]
 
     def return_times(self, index=0):
         """
@@ -158,7 +161,7 @@ class HeartRateMonitor:
         :param index: index of time in self.data
         :type index: int
 
-        :return: 2d numpy array of times
+        :return: 1d numpy array of times
         :rtype: numpy array
         """
         try:
@@ -168,14 +171,14 @@ class HeartRateMonitor:
             print("Necessary import failed: {}".format(e))
             return
         data_mat = np.matrix(self.data)
-        return return_column(data_mat, index)
+        arr = return_column(data_mat, index)
+        return arr[0]
 
     def find_duration(self):
         """
         Sets duration of HeartRateMonitor object
         """
-        times = self.return_times()
-        t = times[0]
+        t = self.return_times()
         if t.size == 0:
             self.duration = 0
             return
@@ -196,10 +199,8 @@ class HeartRateMonitor:
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
-        voltages = self.return_voltages()
-        v = voltages[0]
-        times = self.return_times()
-        t = times[0]
+        v = self.return_voltages()
+        t = self.return_times()
         t_diff = np.diff(t)
         fs = 1/np.mean(t_diff)
         hr = autocorr_freq(v, fs)
@@ -208,3 +209,19 @@ class HeartRateMonitor:
         if self.units == 'millisecond' or self.units == 'ms':
             hr *= 60000
         self.mean_hr_bpm = hr
+
+    def find_extreme_voltages(self):
+        """
+        Finds extreme voltage tuple (min, max) for ECG strip
+        """
+        try:
+            import numpy as np
+            import matplotlib.pyplot as plt
+            from tools.hrm_tools import find_max, find_min 
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        v = self.return_voltages()
+        maximum = find_max(v)
+        minimum = find_min(v)
+        self.voltage_extremes = (minimum, maximum)
