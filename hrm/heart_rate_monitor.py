@@ -7,12 +7,13 @@ class HeartRateMonitor:
         num_entries (int): number of entries per line of ECG csv file
         data (numpy array): ECG data
         mean_hr_bpm (int): estimated average heart rate over a
-                           user-specified number of minutes (default = 10 min)
+                           user-specified number of minutes (default = 1 min)
         voltage_extremes (tuple): tuple containing minimum and maximum lead
                                   voltages
         duration (float): time duration of the ECG strip
         num_beats (int): number of detected beats in the strip
         beats (numpy array): numpy array of times when a beat occurred
+        units (string): represents the units of time (default = seconds)
     """
 
     def __init__(self, filename, num_entries=2, data=None, mean_hr_bpm=None,

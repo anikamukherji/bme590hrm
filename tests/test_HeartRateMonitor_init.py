@@ -9,7 +9,7 @@ def test_HeartRateMonitor_init():
     test1 = HeartRateMonitor("tests/basic_test2.csv", data=[1])
     test2 = HeartRateMonitor("tests/basic_test2.csv", data=[2])
     test3 = HeartRateMonitor("tests/basic_test2.csv", 6,
-                             [0], 1, (2, 3), 4, 5, [6], 
+                             [0], 1, (2, 3), 4, 5, [6],
                             'minute')
     assert test1.num_entries == 2
     assert test1.data == [1]
@@ -18,7 +18,7 @@ def test_HeartRateMonitor_init():
     assert test1.duration == 1
     assert test1.num_beats is None
     assert test1.beats is None
-    assert test1.units == 'second' 
+    assert test1.units == 'second'
     assert test2.num_entries is 2
     assert test2.data == [2]
     assert test2.mean_hr_bpm is None
@@ -26,7 +26,7 @@ def test_HeartRateMonitor_init():
     assert test2.duration == 2
     assert test2.num_beats is None
     assert test2.beats is None
-    assert test2.units == 'second' 
+    assert test2.units == 'second'
     assert test3.num_entries == 6
     assert test3.data == [0]
     assert test3.mean_hr_bpm == 1
@@ -34,7 +34,8 @@ def test_HeartRateMonitor_init():
     assert test3.duration == 4
     assert test3.num_beats == 5
     assert test3.beats == [6]
-    assert test3.units == 'minute' 
+    assert test3.units == 'minute'
+
 
 def test_find_duration():
     try:
