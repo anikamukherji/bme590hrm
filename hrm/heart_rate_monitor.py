@@ -185,17 +185,15 @@ class HeartRateMonitor:
         last_sample = t[-1]
         self.duration = last_sample
 
-    def find_heart_rate(self):
+    def find_fs(self):
         """
-        Finds heart rate of HeartRateMonitor object data
+        Finds the average sampling frequency
 
-        :return: heart rate
+        :return: sampling frequency
         :rtype: float
         """
         try:
             import numpy as np
-            import matplotlib.pyplot as plt
-            from tools.hrm_tools import autocorr_freq
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
@@ -203,6 +201,20 @@ class HeartRateMonitor:
         t = self.return_times()
         t_diff = np.diff(t)
         fs = 1/np.mean(t_diff)
+        return fs
+
+    def find_heart_rate(self):
+        """
+        Finds heart rate of HeartRateMonitor object data
+        """
+        try:
+            import numpy as np
+            from tools.hrm_tools import autocorr_freq
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        v = self.return_voltages()
+        fs = self.find_fs()
         hr = autocorr_freq(v, fs)
         if self.units == 'second' or self.units == 's':
             hr *= 60
@@ -216,7 +228,6 @@ class HeartRateMonitor:
         """
         try:
             import numpy as np
-            import matplotlib.pyplot as plt
             from tools.hrm_tools import find_max, find_min
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
@@ -225,3 +236,16 @@ class HeartRateMonitor:
         maximum = find_max(v)
         minimum = find_min(v)
         self.voltage_extremes = (minimum, maximum)
+
+    def find_beats():
+        """
+        Finds times of detected beats in ECG strip
+        """
+        fs = self.find_fs()
+        pass
+
+    def find_num_beats():
+        """
+        Finds number of detected beats in ECG strip
+        """
+        self.num_beats = len(self.beats)
