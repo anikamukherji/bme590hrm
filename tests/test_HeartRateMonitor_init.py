@@ -9,8 +9,7 @@ def test_HeartRateMonitor_init():
     test1 = HeartRateMonitor("tests/basic_test2.csv", data=[1])
     test2 = HeartRateMonitor("tests/basic_test2.csv", data=[2])
     test3 = HeartRateMonitor("tests/basic_test2.csv", 6,
-                             [0], 1, (2, 3), 4, 5, [6],
-                            'minute')
+                             [0], 1, (2, 3), 4, 5, [6], 'minute')
     assert test1.num_entries == 2
     assert test1.data == [1]
     assert test1.mean_hr_bpm is None

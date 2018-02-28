@@ -187,7 +187,7 @@ class HeartRateMonitor:
         Finds heart rate of HeartRateMonitor object data
 
         :return: heart rate
-        :rtype: int
+        :rtype: float
         """
         try:
             import numpy as np
@@ -201,6 +201,10 @@ class HeartRateMonitor:
         times = self.return_times()
         t = times[0]
         t_diff = np.diff(t)
-        fs = np.mean(t_diff)
-        freq = autocorr_freq(v, fs)
-        return freq
+        fs = 1/np.mean(t_diff)
+        hr = autocorr_freq(v, fs)
+        if self.units == 'second' or self.units == 's':
+            hr *= 60
+        if self.units == 'millisecond' or self.units == 'ms':
+            hr *= 60000
+        return hr
