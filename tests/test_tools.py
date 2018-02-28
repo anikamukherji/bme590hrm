@@ -81,3 +81,41 @@ def test_autocorr_freq():
     freq2 = autocorr_freq(test2, len(test2))
     assert freq1 == 3
     assert freq2 == 3
+
+
+def test_find_max():
+    try:
+        import pytest
+        import numpy as np
+        from tools.hrm_tools import find_max
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    type_errs = [np.array([[1,2], [1,2]]), np.array(['a']), [3, 4],
+                 'a', {1: 3}, np.array([])]
+    for ex in type_errs:
+        with pytest.raises(TypeError):
+            find_max(ex)
+    tests = [np.array([1, 2, 3]), np.array([-1, 4, -9]), np.array([0])]
+    answers = [3.0, 4.0, 0.0]
+    for t, a in zip(tests, answers):
+        assert find_max(t) == a
+
+
+def test_find_min():
+    try:
+        import pytest
+        import numpy as np
+        from tools.hrm_tools import find_min 
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    type_errs = [np.array([[1,2], [1,2]]), np.array(['a']), [3, 4],
+                 'a', {1: 3}, np.array([])]
+    for ex in type_errs:
+        with pytest.raises(TypeError):
+            find_min(ex)
+    tests = [np.array([1, 2, 3]), np.array([-1, 4, -9]), np.array([0])]
+    answers = [1.0, -9.0, 0.0]
+    for t, a in zip(tests, answers):
+        assert find_min(t) == a

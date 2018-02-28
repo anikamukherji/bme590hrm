@@ -61,3 +61,67 @@ def autocorr_freq(signal, fs):
     peak = np.argmax(corr[start:]) + start
     freq = fs/peak
     return int(freq)
+
+
+def find_max(array):
+    """
+    Finds max value of a given numpy array
+
+    :param array: array filled with some numerical values
+    :type array: 1-d numpy array
+
+    :return: max value
+    :rtype: float
+    """
+    try:
+        import numpy as np
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    try:
+        if array.ndim != 1 or array.size == 0:
+            raise TypeError()
+    except AttributeError as e:
+        print("Wrong type passed in: {}".format(e))
+        raise TypeError()
+    try:
+        float_arr = np.array([float(i) for i in array])
+    except TypeError as e:
+        print("Wrong type passed in: {}".format(e))
+        raise TypeError()
+    except ValueError as e:
+        print("Wrong type passed in: {}".format(e))
+        raise TypeError()
+    return np.amax(float_arr)
+
+
+def find_min(array):
+    """
+    Finds max value of a given numpy array
+
+    :param array: array filled with some numerical values
+    :type array: 1-d numpy array
+
+    :return: max value
+    :rtype: float
+    """
+    try:
+        import numpy as np
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    try:
+        if array.ndim != 1 or array.size == 0:
+            raise TypeError()
+    except AttributeError as e:
+        print("Wrong type passed in: {}".format(e))
+        raise TypeError()
+    try:
+        float_arr = np.array([float(i) for i in array])
+    except TypeError as e:
+        print("Wrong type passed in: {}".format(e))
+        raise TypeError()
+    except ValueError as e:
+        print("Wrong type passed in: {}".format(e))
+        raise TypeError()
+    return np.amin(float_arr)
