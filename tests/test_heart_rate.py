@@ -6,6 +6,6 @@ def test_heart_rate():
     except ImportError as e:
         print("Necessary import failed: {}".format(e))
         return
-    test = HeartRateMonitor("test_data/test_data1.csv")
-    freq = test.find_heart_rate()
-    pass
+    test1 = HeartRateMonitor("test_data/test_data1.csv")
+    test1.find_heart_rate()
+    assert int(test1.mean_hr_bpm) == int(35*(60/test1.duration))

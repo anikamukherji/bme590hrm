@@ -207,4 +207,4 @@ class HeartRateMonitor:
             hr *= 60
         if self.units == 'millisecond' or self.units == 'ms':
             hr *= 60000
-        return hr
+        self.mean_hr_bpm = hr
