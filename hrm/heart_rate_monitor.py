@@ -251,24 +251,23 @@ class HeartRateMonitor:
         volts = self.return_voltages()
         times = self.return_times()
         hr = autocorr_freq(volts, fs)
+        step = 1/hr
         beats_list = []
         start = 0.0
-        end = 0
-        curr = 0
+        end = curr = 0
         step_volts = np.array([])
         for v, t in zip(volts, times):
-            if t > hr + start:
+            if t > step + start:
                 max_index = np.argmax(step_volts) + end
                 beats_list.append(times[max_index])            
                 # this v,t pair is out of range
                 # so start new array wih only that voltage
                 step_volts = np.array(v)
-                start = hr + start
+                start = step + start
                 end = curr
-                curr = 0
             else:
                 step_volts = np.append(step_volts, v)
-                curr += 1
+            curr += 1
         self.beats = np.array(beats_list)
 
 

@@ -21,8 +21,6 @@ def test_find_beats():
         return
     test1 = HeartRateMonitor("test_data/test_data1.csv")
     test1.find_beats()
-    print(test1.beats)
-    pass
 
 
 def test_num_beats():
