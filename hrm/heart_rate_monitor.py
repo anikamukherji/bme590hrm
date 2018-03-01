@@ -185,17 +185,15 @@ class HeartRateMonitor:
         last_sample = t[-1]
         self.duration = last_sample
 
-    def find_heart_rate(self):
+    def find_fs(self):
         """
-        Finds heart rate of HeartRateMonitor object data
+        Finds the average sampling frequency
 
-        :return: heart rate
+        :return: sampling frequency
         :rtype: float
         """
         try:
             import numpy as np
-            import matplotlib.pyplot as plt
-            from tools.hrm_tools import autocorr_freq
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
@@ -203,6 +201,20 @@ class HeartRateMonitor:
         t = self.return_times()
         t_diff = np.diff(t)
         fs = 1/np.mean(t_diff)
+        return fs
+
+    def find_heart_rate(self):
+        """
+        Finds heart rate of HeartRateMonitor object data
+        """
+        try:
+            import numpy as np
+            from tools.hrm_tools import autocorr_freq
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        v = self.return_voltages()
+        fs = self.find_fs()
         hr = autocorr_freq(v, fs)
         if self.units == 'second' or self.units == 's':
             hr *= 60
@@ -216,7 +228,6 @@ class HeartRateMonitor:
         """
         try:
             import numpy as np
-            import matplotlib.pyplot as plt
             from tools.hrm_tools import find_max, find_min
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
@@ -225,3 +236,47 @@ class HeartRateMonitor:
         maximum = find_max(v)
         minimum = find_min(v)
         self.voltage_extremes = (minimum, maximum)
+
+    def find_beats(self):
+        """
+        Finds times of detected beats in ECG strip
+        """
+        try:
+            import numpy as np
+            from tools.hrm_tools import autocorr_freq
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        fs = self.find_fs()
+        volts = self.return_voltages()
+        times = self.return_times()
+        hr = autocorr_freq(volts, fs)
+        step = 1/hr
+        beats_list = []
+        start = 0.0
+        end = curr = 0
+        step_volts = np.array([])
+        for v, t in zip(volts, times):
+            if t > step + start:
+                max_index = np.argmax(step_volts) + end
+                beats_list.append(times[max_index])
+                # this v,t pair is out of range
+                # so start new array wih only that voltage
+                step_volts = np.array(v)
+                start = step + start
+                end = curr
+            else:
+                step_volts = np.append(step_volts, v)
+            curr += 1
+        self.beats = np.array(beats_list)
+
+    def find_num_beats(self):
+        """
+        Finds number of detected beats in ECG strip
+        """
+        try:
+            import numpy as np
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        self.num_beats = self.beats.size
