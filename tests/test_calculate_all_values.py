@@ -12,7 +12,6 @@ def test_calculate_all_values():
         print("Necessary import failed: {}".format(e))
         return
     for num in range(1, 33):
-        print(num)
         test = HeartRateMonitor("test_data/test_data{}.csv".format(num))
         assert test.calculate_all_values() is True
-
+        assert test.num_beats == test.beats.size
