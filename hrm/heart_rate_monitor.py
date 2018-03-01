@@ -41,7 +41,7 @@ class HeartRateMonitor:
         :param units: units of time from the csv file (default = seconds)
         :type units: string
         """
-        self.filename = filename
+        self._filename = filename
         self.num_entries = num_entries
         if not data:
             data = self.read_file(filename)
@@ -55,6 +55,16 @@ class HeartRateMonitor:
         self.num_beats = num_beats
         self.beats = beats
         self.units = units
+
+    @property
+    def filename(self):
+        return self._filename
+
+    @filename.setter
+    def filename(self, filename):
+        self.data = self.read_file(filename)
+        self._filename = filename
+        self.calculate_all_values()
 
     def calculate_all_values(self):
         """
