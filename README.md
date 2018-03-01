@@ -2,6 +2,8 @@
 
 ## Anika Mukherji
 
+[![Build Status](https://travis-ci.org/anikamukherji/bme590hrm.svg?branch=master)](https://travis-ci.org/anikamukherji/bme590hrm)
+
 ## How to run via example...
 ```
 x = HeartRateMonitor("test_data/test_data1.csv")
@@ -19,6 +21,15 @@ To graph...
 ```
 x.graph_data()
 ```
+If filename is changed, the data & calculated values are changed immediately
+```
+x.filename = "test_data/test_data2.csv"
+>>> x.num_beats
+30
+
+>>> x.mean_hr_bpm
+66.66666666666669
+```
 
 *Note* -> if the matplotlib import throws a MacOX runtime error create
 a user config file with...
@@ -26,7 +37,6 @@ a user config file with...
 echo "backend: TkAgg" >> ~/.matplotlib/matplotlibrc
 ```
 
-[![Build Status](https://travis-ci.org/anikamukherji/bme590hrm.svg?branch=master)](https://travis-ci.org/anikamukherji/bme590hrm)
 
 MIT License
 
