@@ -56,6 +56,38 @@ class HeartRateMonitor:
         self.beats = beats
         self.units = units
 
+    def calculate_all_values(self):
+        """
+        Calculates all values of the HRM object based on its
+        data array
+
+        :return: True if no exceptions thrown
+        :rtype: boolean
+        """
+        try:
+            import logging
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        logging.basicConfig(filename='calculate_all_values.log', filemode='w',
+                            level=logging.DEBUG)
+        try:
+            self.find_duration()
+            self.find_heart_rate()
+            self.find_beats()
+            self.find_num_beats()
+            self.find_extreme_voltages()
+        except BaseException as e:
+            logging.warning("Error encountered: {}".format(e))
+            return False
+        logging.info("All values calculated")
+        try:
+            self.write_json()
+        except BaseException as e:
+            logging.warning("Error encountered writing JSON: {}".format(e))
+            return False
+        return True
+
     def read_file(self, filename):
         """
         Reads file and returns 2d numpy array containing
@@ -319,7 +351,7 @@ class HeartRateMonitor:
                   "duration": self.duration,
                   "units": self.units,
                   "voltage_extremes": self.voltage_extremes,
-                  "num_beats": self.num_beats,
-                  "beats": self.beats
+                  "num_beats": (self.num_beats),
+                  "beats": list(self.beats)
                  }
         return values

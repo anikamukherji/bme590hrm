@@ -2,12 +2,13 @@ def prepare_csv_line(row):
     """
     Takes in row from csv reader and returns a numpy
     array of floats
+    Returns None if row contains NaN
     :param row: Row from csv reader
     :type row: list
 
     :return: formatted numpy array of floats
     :rtype: numpy array
-    :return: None if error is raised
+    :return: None if error is raised or row contains NaN
     :rtype: NoneType
     """
     try:
@@ -28,5 +29,8 @@ def prepare_csv_line(row):
     except ValueError as e:
         print("Value could not be cast to float: {}".format(e))
         return None
+    for val in float_row:
+        if np.isnan(val):
+            return None
     data_array = np.array(float_row)
     return data_array

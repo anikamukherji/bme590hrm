@@ -56,7 +56,7 @@ def autocorr_freq(signal, fs):
     ret = fftconvolve(signal, signal[::-1], mode='full')
     # get rid of negative lags
     corr = ret[ret.size//2:]
-    d = np.diff(corr)
+    d = np.diff(corr, axis=0)
     start = find(d > 0)[0]
     peak = np.argmax(corr[start:]) + start
     steps_per_peak = fs/peak

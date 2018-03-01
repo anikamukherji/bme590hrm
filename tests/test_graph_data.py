@@ -1,4 +1,7 @@
 def test_graph_data():
+    """
+    Tests graph_data function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np
@@ -13,6 +16,9 @@ def test_graph_data():
 
 
 def test_return_voltages():
+    """
+    Tests return_voltages function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np
@@ -27,6 +33,9 @@ def test_return_voltages():
 
 
 def test_return_times():
+    """
+    Tests return_times function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np

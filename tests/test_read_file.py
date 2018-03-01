@@ -1,4 +1,7 @@
 def test_read_file():
+    """
+    Tests the read_file function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np
