@@ -1,4 +1,7 @@
 def test_HeartRateMonitor_init():
+    """
+    Tests the init function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np
@@ -37,6 +40,9 @@ def test_HeartRateMonitor_init():
 
 
 def test_find_duration():
+    """
+    Tests the find_duration function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np
@@ -49,6 +55,9 @@ def test_find_duration():
 
 
 def test_find_extreme_voltages():
+    """
+    Tests the find_extreme_voltages function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np

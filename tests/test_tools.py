@@ -1,4 +1,7 @@
 def test_prepare_csv_line():
+    """
+    Tests the prepare_csv_line function in the tools package
+    """
     try:
         import pytest
         import numpy as np
@@ -18,6 +21,9 @@ def test_prepare_csv_line():
 
 
 def test_simple_graph():
+    """
+    Tests the simple_graph function in the tools package
+    """
     try:
         import pytest
         import numpy as np
@@ -37,6 +43,9 @@ def test_simple_graph():
 
 
 def test_return_column():
+    """
+    Tests the return_column function in the tools package
+    """
     try:
         import pytest
         import numpy as np
@@ -68,6 +77,9 @@ def test_return_column():
 
 
 def test_autocorr_freq():
+    """
+    Tests the autocorr_freq function in the tools package
+    """
     try:
         import pytest
         import numpy as np
@@ -84,6 +96,9 @@ def test_autocorr_freq():
 
 
 def test_find_max():
+    """
+    Tests the find_max function in the tools package
+    """
     try:
         import pytest
         import numpy as np
@@ -103,6 +118,9 @@ def test_find_max():
 
 
 def test_find_min():
+    """
+    Tests the find_min function in the tools package
+    """
     try:
         import pytest
         import numpy as np

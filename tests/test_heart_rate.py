@@ -1,4 +1,7 @@
 def test_heart_rate():
+    """
+    Tests the find_heart_rate function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np
@@ -12,6 +15,9 @@ def test_heart_rate():
 
 
 def test_find_beats():
+    """
+    Tests the find_beats function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np
@@ -24,6 +30,9 @@ def test_find_beats():
 
 
 def test_num_beats():
+    """
+    Tests the find_num_beats function in the HeartRateMonitor class
+    """
     try:
         import pytest
         import numpy as np

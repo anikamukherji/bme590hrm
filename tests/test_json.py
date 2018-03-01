@@ -1,4 +1,7 @@
 def test_write_json():
+    """
+    Tests the write_json function in the HeartRateMonitor class
+    """
     try:
         import pytest
         from hrm.heart_rate_monitor import HeartRateMonitor
@@ -25,6 +28,9 @@ def test_write_json():
 
 
 def test_return_values_dict():
+    """
+    Tests the return_all_values function in the HeartRateMonitor class
+    """
     try:
         import pytest
         from hrm.heart_rate_monitor import HeartRateMonitor
