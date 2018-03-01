@@ -280,3 +280,46 @@ class HeartRateMonitor:
             print("Necessary import failed: {}".format(e))
             return
         self.num_beats = self.beats.size
+
+    def write_json(self):
+        """
+        Dumps important attributes from HRM object into
+        a JSON file with the same filename/filepath as the
+        CSV file the data came from
+        """
+        try:
+            import json
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        filename = self.filename
+        try:
+            json_file = filename.replace('.csv', '.json')
+        except AttributeError as e:
+            print("self.filename has wrong type: {}".format(e))
+            raise TypeError()
+        vals = self.return_values_dict()
+        with open(json_file, 'w') as f:
+            json.dump(vals, f)
+
+    def return_values_dict(self):
+        """
+        Returns a dictionary of important attributes
+
+        :return: dict of attributes
+        :rtype: dict
+        """
+        try:
+            from datetime import date
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        values = {
+                  "mean_hr_bpm": self.mean_hr_bpm,
+                  "duration": self.duration,
+                  "units": self.units,
+                  "voltage_extremes": self.voltage_extremes,
+                  "num_beats": self.num_beats,
+                  "beats": self.beats
+                 }
+        return values
