@@ -2,8 +2,26 @@
 
 ## Anika Mukherji
 
-### *Note* -> if the matplotlib import throws a MacOX runtime error create
-### a user config file with...
+## How to run via example...
+```
+x = HeartRateMonitor("test_data/test_data1.csv")
+x.calculate_all_values()
+```
+All values are now stored in the HeartRateMonitor object
+```
+>>> print(x.mean_hr_bpm)
+75.78947368421053
+
+>>> print(x.num_beats)
+35
+```
+To graph...
+```
+x.graph_data()
+```
+
+*Note* -> if the matplotlib import throws a MacOX runtime error create
+a user config file with...
 ```
 echo "backend: TkAgg" >> ~/.matplotlib/matplotlibrc
 ```
