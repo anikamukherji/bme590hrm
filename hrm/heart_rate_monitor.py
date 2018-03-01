@@ -107,6 +107,7 @@ class HeartRateMonitor:
             import numpy as np
             from hrm.hrm_errors import EmptyFileError, FileFormatError
             from tools.csv_tools import prepare_csv_line
+            import logging
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
@@ -242,16 +243,23 @@ class HeartRateMonitor:
         try:
             import numpy as np
             from tools.hrm_tools import autocorr_freq
+            import logging
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
+        logging.basicConfig(filename='find_heart_rate.log', filemode='w',
+                            level=logging.DEBUG)
         v = self.return_voltages()
         fs = self.find_fs()
         hr = autocorr_freq(v, fs)
+        logging.info("Returned value from "
+                     "autocorr_freq: {}".format(hr))
         if self.units == 'second' or self.units == 's':
             hr *= 60
         if self.units == 'millisecond' or self.units == 'ms':
             hr *= 60000
+        logging.info("Setting self.mean_hr_bpm "
+                     "to: {}".format(hr))
         self.mean_hr_bpm = hr
 
     def find_extreme_voltages(self):
@@ -261,12 +269,17 @@ class HeartRateMonitor:
         try:
             import numpy as np
             from tools.hrm_tools import find_max, find_min
+            import logging
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
+        logging.basicConfig(filename='find_extreme_voltages.log', filemode='w',
+                            level=logging.DEBUG)
         v = self.return_voltages()
         maximum = find_max(v)
         minimum = find_min(v)
+        logging.info("Setting self.extreme_voltages"
+                     "to: {}".format((minimum, maximum)))
         self.voltage_extremes = (minimum, maximum)
 
     def find_beats(self):
@@ -276,14 +289,21 @@ class HeartRateMonitor:
         try:
             import numpy as np
             from tools.hrm_tools import autocorr_freq
+            import logging
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
+        logging.basicConfig(filename='find_beats.log', filemode='w',
+                            level=logging.DEBUG)
         fs = self.find_fs()
         volts = self.return_voltages()
         times = self.return_times()
         hr = autocorr_freq(volts, fs)
-        step = 1/hr
+        try:
+            step = 1/hr
+        except ZeroDivisionError:
+            logging.error("autocorr_freq returned value of 0")
+            return []
         beats_list = []
         start = 0.0
         end = curr = 0
@@ -291,7 +311,11 @@ class HeartRateMonitor:
         for v, t in zip(volts, times):
             if t > step + start:
                 max_index = np.argmax(step_volts) + end
-                beats_list.append(times[max_index])
+                try:
+                    beats_list.append(times[max_index])
+                except IndexError:
+                    logging.warning("Index out of range")
+                    continue
                 # this v,t pair is out of range
                 # so start new array wih only that voltage
                 step_volts = np.array(v)
@@ -300,6 +324,8 @@ class HeartRateMonitor:
             else:
                 step_volts = np.append(step_volts, v)
             curr += 1
+        logging.info("Setting self.beats"
+                     "to array of len: {}".format(len(beats_list)))
         self.beats = np.array(beats_list)
 
     def find_num_beats(self):
@@ -308,9 +334,14 @@ class HeartRateMonitor:
         """
         try:
             import numpy as np
+            import logging
         except ImportError as e:
             print("Necessary import failed: {}".format(e))
             return
+        logging.basicConfig(filename='find_num_beats.log', filemode='w',
+                            level=logging.DEBUG)
+        logging.info("Setting self.num_beats"
+                     "to: {}".format(self.beats.size))
         self.num_beats = self.beats.size
 
     def write_json(self):
