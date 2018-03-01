@@ -9,7 +9,7 @@ def test_write_json():
         return
     test = HeartRateMonitor("tests/basic_test2.csv", mean_hr_bpm=6,
                             data=[0], voltage_extremes=(2, 3),
-                            duration=4, num_beats=5, beats=[6], 
+                            duration=4, num_beats=5, beats=[6],
                             units='minute')
     test.write_json()
     data = json.load(open('tests/basic_test2.json'))
@@ -34,7 +34,7 @@ def test_return_values_dict():
         return
     test = HeartRateMonitor("tests/basic_test2.csv", mean_hr_bpm=6,
                             data=[0], voltage_extremes=(2, 3),
-                            duration=4, num_beats=5, beats=[6], 
+                            duration=4, num_beats=5, beats=[6],
                             units='minute')
     ret = test.return_values_dict()
     values = {
