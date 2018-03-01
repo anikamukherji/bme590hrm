@@ -8,6 +8,8 @@
 echo "backend: TkAgg" >> ~/.matplotlib/matplotlibrc
 ```
 
+[![Build Status](https://travis-ci.org/anikamukherji/bme590hrm.svg?branch=master)](https://travis-ci.org/anikamukherji/bme590hrm)
+
 MIT License
 
 Copyright (c) [2018] [Anika Mukherji]
