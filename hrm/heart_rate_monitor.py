@@ -259,7 +259,7 @@ class HeartRateMonitor:
         for v, t in zip(volts, times):
             if t > step + start:
                 max_index = np.argmax(step_volts) + end
-                beats_list.append(times[max_index])            
+                beats_list.append(times[max_index])
                 # this v,t pair is out of range
                 # so start new array wih only that voltage
                 step_volts = np.array(v)
@@ -269,7 +269,6 @@ class HeartRateMonitor:
                 step_volts = np.append(step_volts, v)
             curr += 1
         self.beats = np.array(beats_list)
-
 
     def find_num_beats(self):
         """
