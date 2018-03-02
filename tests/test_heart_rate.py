@@ -14,6 +14,25 @@ def test_heart_rate():
     assert int(test1.mean_hr_bpm) == int(35*(60/test1.duration))
 
 
+def test_find_heart_rates_for_interval():
+    """
+    Tests the find_heart_rates_for_interval function
+    in the HeartRateMonitor class
+    """
+    try:
+        import pytest
+        import numpy as np
+        from hrm.heart_rate_monitor import HeartRateMonitor
+    except ImportError as e:
+        print("Necessary import failed: {}".format(e))
+        return
+    test1 = HeartRateMonitor("test_data/test_data1.csv")
+    ret1 = test1.find_heart_rates_for_interval(1)
+    assert len(ret1) == 1
+    ret2 = test1.find_heart_rates_for_interval(0.4)
+    assert len(ret2) == 2
+
+
 def test_find_beats():
     """
     Tests the find_beats function in the HeartRateMonitor class
