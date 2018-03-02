@@ -262,6 +262,9 @@ class HeartRateMonitor:
         v = self.return_voltages()
         fs = self.find_fs()
         hr = autocorr_freq(v, fs)
+        if hr == 0:
+            logging.warning("HR calculated to be 0, "
+                            " possible error in data format")
         logging.info("Returned value from "
                      "autocorr_freq: {}".format(hr))
         if self.units == 'second' or self.units == 's':

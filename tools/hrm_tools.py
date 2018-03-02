@@ -59,7 +59,11 @@ def autocorr_freq(signal, fs):
     d = np.diff(corr, axis=0)
     start = find(d > 0)[0]
     peak = np.argmax(corr[start:]) + start
-    steps_per_peak = fs/peak
+    try:
+        steps_per_peak = fs/peak
+    except ZeroDivisionError:
+        print("Peak was calculated to be 0")
+        return 0
     return steps_per_peak
 
 
