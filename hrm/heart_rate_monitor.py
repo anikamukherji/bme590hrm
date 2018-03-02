@@ -275,6 +275,60 @@ class HeartRateMonitor:
                      "to: {}".format(hr))
         self.mean_hr_bpm = hr
 
+    def find_heart_rates_for_interval(self, minutes):
+        """
+        Finds heart rate of HeartRateMonitor object data over a
+        user specified number of minutes
+
+        :param minutes: number of minutes to average heart rate
+        :type minutes: int
+
+        :return: array of heart rates
+        :rtype: 1d numpy array
+        """
+        try:
+            import numpy as np
+            from tools.hrm_tools import autocorr_freq
+            import logging
+        except ImportError as e:
+            print("Necessary import failed: {}".format(e))
+            return
+        hr_array = []
+        volts = self.return_voltages()
+        times = self.return_times()
+        fs = self.find_fs()
+        start = 0.0
+        end = curr = 0
+        curr_volts = []
+        if self.units == 'second' or self.units == 's':
+            step = minutes*60
+        if self.units == 'millisecond' or self.units == 'ms':
+            step = minutes*60000
+        for v, t in zip(volts, times):
+            if t > step + start:
+                hr = autocorr_freq(curr_volts, fs)
+                if self.units == 'second' or self.units == 's':
+                    hr *= 60
+                if self.units == 'millisecond' or self.units == 'ms':
+                    hr *= 60000
+                hr_array += [hr]
+                # this v,t pair is out of range
+                # so start new array wih only that voltage
+                step_volts = [v]
+                start = step + start
+                end = curr
+            else:
+                curr_volts.append(v)
+            curr += 1
+        # voltages that are left
+        hr = autocorr_freq(curr_volts, fs)
+        if self.units == 'second' or self.units == 's':
+            hr *= 60
+        if self.units == 'millisecond' or self.units == 'ms':
+            hr *= 60000
+        hr_array += [hr]
+        return np.array(hr_array)
+
     def find_extreme_voltages(self):
         """
         Finds extreme voltage tuple (min, max) for ECG strip
