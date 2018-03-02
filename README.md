@@ -5,6 +5,10 @@
 [![Build Status](https://travis-ci.org/anikamukherji/bme590hrm.svg?branch=master)](https://travis-ci.org/anikamukherji/bme590hrm)
 
 ## How to run via example...
+Make sure requirements are installed...
+```
+pip3 install -r requirements.txt
+```
 ```
 x = HeartRateMonitor("test_data/test_data1.csv")
 x.calculate_all_values()
